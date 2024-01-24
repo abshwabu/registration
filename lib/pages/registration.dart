@@ -1,9 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, unused_field, avoid_print
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gap/gap.dart';
 import 'package:http/http.dart' as http;
 import 'package:registration/constants/apikey.dart';
+import 'package:registration/pages/UserProfilePage.dart';
 import 'package:registration/pages/login.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -71,6 +74,39 @@ class _RegistrationPageState extends State<RegistrationPage> {
         setState(() {
           // Update the UI or perform any other actions
         });
+        // Fetch user details using the token
+        http.Response userResponse = await http.get(
+          Uri.parse(get_apikey),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Token $token',
+          },
+        );
+
+        if (userResponse.statusCode == 200) {
+          // Parse user details
+          Map<String, dynamic> userJson = json.decode(userResponse.body);
+          String fetchedUsername = userJson['username'];
+          String fetchedEmail = userJson['email'];
+
+          // Navigate to the user profile page with the fetched details
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserProfilePage(
+                username: fetchedUsername,
+                email: fetchedEmail,
+              ),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error fetching user details: ${userResponse.statusCode} - ${userResponse.body}'),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
