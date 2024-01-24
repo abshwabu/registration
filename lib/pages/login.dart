@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<void> _postUser({String username = 'admin', String password = 'abdul@123'}) async {
+  Future<void> _postUser({String username = '', String password = ''}) async {
     try {
       http.Response response = await http.post(
         Uri.parse(create_apikey),
