@@ -1,0 +1,2 @@
+const String create_apikey = 'http://10.0.2.2:8000/api/user/token/';
+const String get_apikey = 'http://10.0.2.2:8000/api/user/me/';
