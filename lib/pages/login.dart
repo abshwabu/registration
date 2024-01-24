@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:registration/constants/apikey.dart';
+import 'package:registration/pages/UserProfilePage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -71,20 +72,39 @@ class _LoginPageState extends State<LoginPage> {
         await storage.write(key: 'authToken', value: token);
 
         // Use the token in future requests
-        http.Response securedResponse = await http.get(
+        // Fetch user details using the token
+        http.Response userResponse = await http.get(
           Uri.parse(get_apikey),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Token $token',
           },
         );
-        print(securedResponse.body);
 
-        // Handle securedResponse as needed
+        if (userResponse.statusCode == 200) {
+          // Parse user details
+          Map<String, dynamic> userJson = json.decode(userResponse.body);
+          String fetchedUsername = userJson['username'];
+          String fetchedEmail = userJson['email'];
 
-        setState(() {
-          // Update the UI or perform any other actions
-        });
+          // Navigate to the user profile page with the fetched details
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserProfilePage(
+                username: fetchedUsername,
+                email: fetchedEmail,
+              ),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error fetching user details: ${userResponse.statusCode} - ${userResponse.body}'),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
