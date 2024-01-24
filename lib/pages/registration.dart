@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gap/gap.dart';
 import 'package:http/http.dart' as http;
 import 'package:registration/constants/apikey.dart';
@@ -13,7 +14,7 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   bool _isMounted = true;
-
+  final storage = FlutterSecureStorage();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -30,6 +31,56 @@ class _RegistrationPageState extends State<RegistrationPage> {
     passwordController.dispose();
     emailController.dispose();
     super.dispose();
+  }
+
+  Future<void> _postUser({String username = '', String password = ''}) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(create_apikey),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'username': username,
+          'password': password,
+          'email': 'john.doe@example.com',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Parse the JSON response to extract the token
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        String token = jsonResponse['token'];
+
+        // Store the token securely
+        await storage.write(key: 'authToken', value: token);
+
+        // Use the token in future requests
+        http.Response securedResponse = await http.get(
+          Uri.parse(get_apikey),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Token $token',
+          },
+        );
+        print(securedResponse.body);
+
+        // Handle securedResponse as needed
+
+        setState(() {
+          // Update the UI or perform any other actions
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${response.statusCode} - ${response.body}'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   Future<void> registerUser({String username = '', String password = '', String email = ''}) async {
@@ -55,7 +106,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ),
         );
 
-        // Optionally, you can automatically log in the user after registration
+        _postUser(username: username, password: password);
         // Modify the code to handle the login logic based on your requirements
         // _postUser(username: username, password: password);
 
