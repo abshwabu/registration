@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gap/gap.dart';
 import 'package:http/http.dart' as http;
 import 'package:registration/constants/apikey.dart';
+import 'package:registration/pages/login.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -127,6 +128,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
     }
   }
 
+void navigateToLoginPage() {
+    // Navigate to the login page (assuming LoginPage is your login page)
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,6 +187,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   email: emailController.text,
                 ),
                 child: Text('Register'),
+              ),
+              Gap(10),
+              GestureDetector(
+                onTap: navigateToLoginPage,
+                child: Text(
+                  'Already have an account? Log in.',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
               ),
             ],
           ),
