@@ -31,8 +31,8 @@ class _UpdatePageState extends State<UpdatePage> {
     String? token = await storage.read(key: 'authtoken');
     print('Token: $token');
 
-
-    http.Response response = await http.patch(
+    if (token != null && token.isNotEmpty) {
+      http.Response response = await http.patch(
       Uri.parse(get_apikey),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -44,7 +44,13 @@ class _UpdatePageState extends State<UpdatePage> {
         }),
 
     );
+    } else {
+      print('Token is null or empty. Check token retrieval.');
+    }
 
+
+
+  
     // After updating, you might want to navigate back to the user profile or another page
     Navigator.pop(context); // This will pop the current page and return to the previous page
   }
