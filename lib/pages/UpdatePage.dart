@@ -29,12 +29,14 @@ class _UpdatePageState extends State<UpdatePage> {
     updatedEmail = updatedEmailController.text;
 
     String? token = await storage.read(key: 'authtoken');
+    print('Token: $token');
+
 
     http.Response response = await http.patch(
       Uri.parse(get_apikey),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Token $token',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(<String, dynamic>{
           'username': updatedUsername,
