@@ -1,12 +1,18 @@
-// ignore_for_file: prefer_const_constructors, file_names, use_key_in_widget_constructors, prefer_const_constructors_in_immutables
-
 import 'package:flutter/material.dart';
+import 'UpdatePage.dart'; // Import your UpdatePage file
 
 class UserProfilePage extends StatelessWidget {
   final String username;
   final String email;
 
   UserProfilePage({required this.username, required this.email});
+
+  void navigateToUpdatePage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => UpdatePage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,16 @@ class UserProfilePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Username: $username'),
+            GestureDetector(
+              onTap: () => navigateToUpdatePage(context),
+              child: Text(
+                'Username: $username (Click to Update)',
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
             SizedBox(height: 10),
             Text('Email: $email'),
           ],
