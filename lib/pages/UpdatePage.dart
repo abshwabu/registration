@@ -7,6 +7,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 
 class UpdatePage extends StatefulWidget {
+  final String username;
+  final String email;
+
+  UpdatePage({required this.username, required this.email});
   @override
   _UpdatePageState createState() => _UpdatePageState();
 }
