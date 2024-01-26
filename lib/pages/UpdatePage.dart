@@ -17,15 +17,15 @@ class UpdatePage extends StatefulWidget {
 
 class _UpdatePageState extends State<UpdatePage> {
   final storage = FlutterSecureStorage();
-  final TextEditingController updatedUsernameController = TextEditingController();
-  final TextEditingController updatedEmailController = TextEditingController();
+  TextEditingController updatedUsernameController = TextEditingController();
+  TextEditingController updatedEmailController = TextEditingController();
   final token = 'token';
 
   @override
-  void dispose() {
-    updatedUsernameController.dispose();
-    updatedEmailController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    updatedUsernameController = TextEditingController(text: widget.username);
+    updatedEmailController = TextEditingController(text: widget.email);
   }
   void updateUserInfo({String updatedUsername = '', String updatedEmail = ''}) async{
     // Add your logic to update user information
