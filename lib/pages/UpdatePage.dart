@@ -59,7 +59,7 @@ class _UpdatePageState extends State<UpdatePage> {
           print(response.body);
         }
     } else {
-      print('Token is null or empty. Check token retrieval.');
+      print('Token is null or empty! Check token retrieval.');
     }
 
 
