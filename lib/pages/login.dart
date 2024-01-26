@@ -88,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
           Map<String, dynamic> userJson = json.decode(userResponse.body);
           String fetchedUsername = userJson['username'];
           String fetchedEmail = userJson['email'];
+          String fetchedToken = userJson['token'];
 
           // Navigate to the user profile page with the fetched details
           Navigator.pushReplacement(
@@ -96,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
               builder: (context) => UserProfilePage(
                 username: fetchedUsername,
                 email: fetchedEmail,
+                token: fetchedToken,
               ),
             ),
           );
