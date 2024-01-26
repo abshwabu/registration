@@ -15,6 +15,7 @@ class _UpdatePageState extends State<UpdatePage> {
   final storage = FlutterSecureStorage();
   final TextEditingController updatedUsernameController = TextEditingController();
   final TextEditingController updatedEmailController = TextEditingController();
+  final token = 'token';
 
   @override
   void dispose() {
@@ -46,6 +47,7 @@ class _UpdatePageState extends State<UpdatePage> {
 
 
     );
+    print('success');
     if (response.statusCode == 200) {
             print(response.body);
         } else{
