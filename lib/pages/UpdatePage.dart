@@ -36,21 +36,29 @@ class _UpdatePageState extends State<UpdatePage> {
       Uri.parse(get_apikey),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $token',
+          'Authorization': 'Token $token',
         },
         body: jsonEncode(<String, dynamic>{
           'username': updatedUsername,
           'email': updatedEmail,
         }),
 
+
+
     );
+    if (response.statusCode == 200) {
+            print(response.body);
+        } else{
+          print(response.statusCode);
+          print(response.body);
+        }
     } else {
       print('Token is null or empty. Check token retrieval.');
     }
 
 
 
-  
+
     // After updating, you might want to navigate back to the user profile or another page
     Navigator.pop(context); // This will pop the current page and return to the previous page
   }
