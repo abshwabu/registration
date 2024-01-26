@@ -4,9 +4,8 @@ import 'UpdatePage.dart'; // Import your UpdatePage file
 class UserProfilePage extends StatelessWidget {
   final String username;
   final String email;
-  final String token;
 
-  UserProfilePage({required this.username, required this.email, required this.token});
+  UserProfilePage({required this.username, required this.email});
 
   void navigateToUpdatePage(BuildContext context) {
     Navigator.push(

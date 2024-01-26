@@ -29,7 +29,7 @@ class _UpdatePageState extends State<UpdatePage> {
     updatedUsername = updatedUsernameController.text;
     updatedEmail = updatedEmailController.text;
 
-    String? token = await storage.read(key: 'authtoken');
+    String? token = await storage.read(key: 'authToken');
     print('Token: $token');
 
     if (token != null && token.isNotEmpty) {
