@@ -10,7 +10,7 @@ class UserProfilePage extends StatelessWidget {
   void navigateToUpdatePage(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => UpdatePage()),
+      MaterialPageRoute(builder: (context) => UpdatePage(username: username, email: email,)),
     );
   }
 
