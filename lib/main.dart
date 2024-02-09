@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:registration/pages/login.dart';
-import 'package:registration/pages/registration.dart';
+// import 'package:registration/pages/registration.dart';
 
 void main() {
   runApp(const MyApp());
