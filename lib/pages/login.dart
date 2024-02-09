@@ -8,6 +8,7 @@ import 'dart:convert';
 
 import 'package:registration/constants/apikey.dart';
 import 'package:registration/pages/UserProfilePage.dart';
+import 'package:registration/pages/userDashboard.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -93,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => UserProfilePage(
+              builder: (context) => UserDashboard(
                 username: fetchedUsername,
                 email: fetchedEmail,
               ),
