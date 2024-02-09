@@ -18,7 +18,7 @@ class UserProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Profile'),
+        title: const Text('User Profile'),
         backgroundColor: Colors.green,
       ),
       body: Center(
@@ -30,13 +30,13 @@ class UserProfilePage extends StatelessWidget {
               onTap: () => navigateToUpdatePage(context),
               child: Text(
                 'Username: $username (Click to Update)',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.blue,
                   decoration: TextDecoration.underline,
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text('Email: $email'),
           ],
         ),
