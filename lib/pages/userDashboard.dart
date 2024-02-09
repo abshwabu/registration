@@ -59,6 +59,7 @@ class PostList extends StatefulWidget {
 
 class _PostListState extends State<PostList> {
   final storage = FlutterSecureStorage();
+  List<dynamic> post = [];
 
   void get_posts() async {
     String? token = await storage.read(key: 'authToken');
@@ -73,12 +74,27 @@ class _PostListState extends State<PostList> {
           'Authorization': 'Token $token',
         },
     );
-    String? title = response.body;
-    String data = jsonDecode(title);
-    print(data);
+    String? data = response.body;
+    post = jsonDecode(data);
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    get_posts();
   }
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: post.length,
+      itemBuilder: (context, index){
+        return ListTile(
+          title: Text(post[index]['title'] ??''),
+          subtitle: Text(post[index]['content'] ??'')
+        );
+      },
+    );
   }
 }
