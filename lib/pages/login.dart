@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:registration/constants/apikey.dart';
-import 'package:registration/pages/UserProfilePage.dart';
+// import 'package:registration/pages/UserProfilePage.dart';
 import 'package:registration/pages/userDashboard.dart';
 
 class LoginPage extends StatefulWidget {
