@@ -20,6 +20,26 @@ class UserDashboard extends StatelessWidget {
         title: const Text('User Dashboard'),
         backgroundColor: Colors.green,
       ),
+      body: Center(
+        child: Column(children: [
+          Row(
+            children: [
+              GestureDetector(
+              onTap: () => navigateToUpdatePage(context),
+              child: Text(
+                'Username: $username (Click to Update)',
+                style: const TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+            const SizedBox(width: 10,),
+            
+            ],
+          )
+        ]),
+      ),
     );
   }
 }
