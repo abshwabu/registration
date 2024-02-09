@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:registration/pages/UpdatePage.dart';
 
-class UserDashboard extends StatefulWidget {
-  const UserDashboard({super.key});
+class UserDashboard extends StatelessWidget {
+  final String username;
+  final String email;
+  const UserDashboard({super.key,required this.username,required this.email});
 
-  @override
-  State<UserDashboard> createState() => _UserDashboardState();
-}
+  void navigateToUpdatePage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => UpdatePage(username: username, email: email,)),
+    );
+  }
 
-class _UserDashboardState extends State<UserDashboard> {
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
