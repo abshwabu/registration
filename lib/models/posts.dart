@@ -1,6 +1,6 @@
 class Post{
   int id;
   String title;
-  List<Object> tags;
+  List<dynamic> tags;
   Post({required this.id, required this.title, required this.tags});
 }
