@@ -107,7 +107,7 @@ class _PostListState extends State<PostList> {
   void get_post_details(var id) async{
     String? token = await storage.read(key: 'authToken');
 
-    http.Response response = await http.get(Uri.parse(Post_apikey+"/"+id),
+    http.Response response = await http.get(Uri.parse(Post_apikey+id),
     headers:  <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Token $token',
