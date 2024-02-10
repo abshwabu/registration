@@ -3,6 +3,6 @@ class PostDetails{
   String title;
   String content;
   String image;
-  List<Object> tags;
+  List<dynamic> tags;
   PostDetails({required this.id, required this.title, required this.content, required this.image, required this.tags});
 }
