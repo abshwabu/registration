@@ -74,8 +74,24 @@ class _PostListState extends State<PostList> {
           'Authorization': 'Token $token',
         },
     );
-    String? data = response.body;
-    post = jsonDecode(data);
+   setState(() {
+        post = jsonDecode(response.body); // Decode and update posts list
+      });
+  }
+  void get_post_details() async{
+    String? token = await storage.read(key: 'authToken');
+    int id = await post[0]['id'];
+    http.Response response = await http.get(Uri.parse(Post_apikey+"/"+id.toString()),
+    headers:  <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Token $token',
+        },
+    );
+    if(response.statusCode==200){
+      var data = jsonDecode(response.body);
+      print(data);
+    }
+    print(response.statusCode);
   }
   @override
   void initState() {
@@ -85,16 +101,9 @@ class _PostListState extends State<PostList> {
   }
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: post.length,
-      itemBuilder: (context, index){
-        return ListTile(
-          title: Text(post[index]['title'] ??''),
-          subtitle: Text(post[index]['content'] ??'')
-        );
-      },
+    return Column(
+      children: post[0]['title'],
+
     );
   }
 }
