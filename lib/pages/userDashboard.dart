@@ -29,8 +29,13 @@ class UserDashboard extends StatelessWidget {
         backgroundColor: Colors.green,
       ),
       body: Center(
-        child: Column(children: [
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+
           Row(
+            mainAxisSize: MainAxisSize.max,
             children: [
               GestureDetector(
               onTap: () => navigateToUpdatePage(context),
@@ -66,28 +71,39 @@ class _PostListState extends State<PostList> {
   List<Post> posts = [];
 
   void get_posts() async {
-    String? token = await storage.read(key: 'authToken');
+  String? token = await storage.read(key: 'authToken');
 
-    if (token == null){
-      print('Token not found');
-    }
-    http.Response response = await http.get(
-      Uri.parse(Post_apikey),
-      headers:  <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Token $token',
-        },
-    );
-   var data = json.decode(response.body);
-   data.forEach((post){
+  if (token == null){
+    print('Token not found');
+  }
+  try {
+  http.Response response = await http.get(
+    Uri.parse(Post_apikey),
+    headers:  <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Token $token',
+    },
+  );
+  var data = json.decode(response.body);
+  print('Response data: $data'); // Print response data for debugging
+  List<Post> fetchedPosts = [];
+  data.forEach((post){
     Post p = Post(
       id: post['id'],
       title: post['title'],
       tags: post['tags'],
     );
-    posts.add(p);
-   });
-  }
+    fetchedPosts.add(p);
+  });
+  setState(() {
+    posts = fetchedPosts; // Update the posts list with fetched posts
+  });
+  print('Posts: $posts');
+   } catch(e){
+    print('error: $e');
+   } // Print posts list for debugging
+}
+
   void get_post_details(var id) async{
     String? token = await storage.read(key: 'authToken');
 
@@ -110,19 +126,24 @@ class _PostListState extends State<PostList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    get_posts();
+
+      get_posts();
+
   }
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
+Widget build(BuildContext context) {
+  return SingleChildScrollView(
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         children: posts.map((e) => PostContainer(
           id: e.id,
           title: e.title,
           onPressed: ()=> get_post_details(e.id.toString()) ,
           tags: e.tags)).toList(),
-
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
