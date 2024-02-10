@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:registration/constants/apikey.dart';
+import 'package:registration/models/post_details.dart';
+import 'package:registration/models/posts.dart';
 import 'package:registration/pages/UpdatePage.dart';
 import 'package:http/http.dart' as http;
 class UserDashboard extends StatelessWidget {
@@ -59,7 +61,7 @@ class PostList extends StatefulWidget {
 
 class _PostListState extends State<PostList> {
   final storage = FlutterSecureStorage();
-  List<dynamic> post = [];
+  List<Post> posts = [];
 
   void get_posts() async {
     String? token = await storage.read(key: 'authToken');
@@ -74,22 +76,28 @@ class _PostListState extends State<PostList> {
           'Authorization': 'Token $token',
         },
     );
-   setState(() {
-        post = jsonDecode(response.body); // Decode and update posts list
-      });
+   var data = json.decode(response.body);
+   data.forEach((post){
+    Post p = Post(
+      id: post['id'],
+      title: post['title'],
+      tags: post['tags'],
+    );
+    posts.add(p);
+   });
   }
-  void get_post_details() async{
+  void get_post_details(var id) async{
     String? token = await storage.read(key: 'authToken');
-    int id = await post[0]['id'];
-    http.Response response = await http.get(Uri.parse(Post_apikey+"/"+id.toString()),
+
+    http.Response response = await http.get(Uri.parse(Post_apikey+"/"+id),
     headers:  <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Token $token',
         },
     );
     if(response.statusCode==200){
-      var data = jsonDecode(response.body);
-      print(data);
+      var data = json.decode(response.body);
+      PostDetails details = PostDetails(id: data['id'], title: data['title'], content: data['content'], image: data['image'], tags: data['tags']);
     }
     print(response.statusCode);
   }
@@ -102,7 +110,7 @@ class _PostListState extends State<PostList> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: post[0]['title'],
+      children: [],
 
     );
   }
