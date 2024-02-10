@@ -7,6 +7,8 @@ import 'package:registration/models/post_details.dart';
 import 'package:registration/models/posts.dart';
 import 'package:registration/pages/UpdatePage.dart';
 import 'package:http/http.dart' as http;
+import 'package:registration/pages/postDetails.dart';
+import 'package:registration/widgets/post_container.dart';
 class UserDashboard extends StatelessWidget {
   final String username;
   final String email;
@@ -98,6 +100,9 @@ class _PostListState extends State<PostList> {
     if(response.statusCode==200){
       var data = json.decode(response.body);
       PostDetails details = PostDetails(id: data['id'], title: data['title'], content: data['content'], image: data['image'], tags: data['tags']);
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) => PostDetailsPage(id: details.id, title: details.title, content: details.content, image: details.image, tags: details.tags)
+      ));
     }
     print(response.statusCode);
   }
@@ -109,9 +114,15 @@ class _PostListState extends State<PostList> {
   }
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [],
+    return SingleChildScrollView(
+      child: Column(
+        children: posts.map((e) => PostContainer(
+          id: e.id,
+          title: e.title,
+          onPressed: ()=> get_post_details(e.id.toString()) ,
+          tags: e.tags)).toList(),
 
+      ),
     );
   }
 }
