@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:registration/constants/apikey.dart';
+import 'package:registration/pages/registration.dart';
 // import 'package:registration/pages/UserProfilePage.dart';
 import 'package:registration/pages/userDashboard.dart';
 
@@ -121,6 +122,14 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  void navigateToLoginPage() {
+    // Navigate to the login page (assuming LoginPage is your login page)
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => RegistrationPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,6 +169,17 @@ class _LoginPageState extends State<LoginPage> {
                   password: passwordController.text,
                 ),
                 child: Text('Login'),
+              ),
+              Gap(10),
+              GestureDetector(
+                onTap: navigateToLoginPage,
+                child: Text(
+                  'Already have an account? Log in.',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
               ),
             ],
           ),
