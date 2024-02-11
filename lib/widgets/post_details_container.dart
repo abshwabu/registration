@@ -40,7 +40,18 @@ class PostDetailsContainer extends StatelessWidget {
                       fontSize: 15,
                       fontWeight: FontWeight.normal
                     ),),
-                    Image.network(image)
+                    Image.network(image),
+                    Row(
+                      children: tags.map((tag) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Text(
+                        tag['name'].toString(),
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    );
+                  }).toList(),
+                    )
                 ],
               ),
             ),
