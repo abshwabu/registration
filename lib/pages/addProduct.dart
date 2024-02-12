@@ -1,7 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:registration/constants/apikey.dart';
+
 
 class AddPostPage extends StatefulWidget {
   @override
@@ -9,6 +14,7 @@ class AddPostPage extends StatefulWidget {
 }
 
 class _AddPostPageState extends State<AddPostPage> {
+  final storage = FlutterSecureStorage();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _tagsController = TextEditingController();
@@ -22,7 +28,31 @@ class _AddPostPageState extends State<AddPostPage> {
       });
     }
   }
+  Future<void> _addPost({String title = '', String content = '', String tags = '', String image = ''}) async {
+    var token = storage.read(key: 'authToken');
+    http.Response response =await http.post(Uri.parse(Post_apikey),
+    headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Token $token',
+        },
+    body: jsonEncode(<String, dynamic>{
+      'title': title,
+      'content': content,
+      'tags': tags,
+      'image': image,
+    })
+    );
+    if(response.statusCode == 200) {
+      try {
+        print('success');
+      } catch (e){
+        print(e);
+      }
+    } else {
+      print(response.statusCode);
+    }
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,18 +107,7 @@ class _AddPostPageState extends State<AddPostPage> {
             ),
             SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                // Implement logic to save the post
-                String title = _titleController.text;
-                String content = _contentController.text;
-                List<String> tags = _tagsController.text.split(',');
-                // Here you can call a function to save the post
-                // For example: savePost(title, content, _image, tags);
-                // Don't forget to implement the savePost function
-                // or replace it with your own logic to save the post.
-                // Once the post is saved, you can navigate back to the previous screen
-                Navigator.pop(context);
-              },
+              onPressed: () => _addPost(title: _tagsController.text, content: _contentController.text, tags: _tagsController.text, image: _image.toString(),),
               child: Text('Add Post'),
             ),
           ],
