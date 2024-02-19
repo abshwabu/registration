@@ -29,7 +29,15 @@ class _AddPostPageState extends State<AddPostPage> {
     }
   }
   Future<void> _addPost({String title = '', String content = '', String tags = '', String image = ''}) async {
-    var token = storage.read(key: 'authToken');
+    String? token = await storage.read(key: 'authToken');
+    print('Token: $token');
+    if(token == null){
+      print('no token');
+    }else{
+      print(token);
+    }
+
+    try {
     http.Response response =await http.post(Uri.parse(Post_apikey),
     headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -40,17 +48,20 @@ class _AddPostPageState extends State<AddPostPage> {
       'content': content,
       'tags': tags,
       'image': image,
-    })
+    }),
+
     );
     if(response.statusCode == 200) {
-      try {
+
         print('success');
-      } catch (e){
-        print(e);
-      }
+
     } else {
       print(response.statusCode);
     }
+    }catch (e){
+        print(e);
+      }
+
 
   }
   @override
