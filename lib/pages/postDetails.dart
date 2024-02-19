@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:registration/pages/addProduct.dart';
 import 'package:registration/widgets/post_details_container.dart';
 
 class PostDetailsPage extends StatelessWidget {
@@ -7,16 +8,38 @@ class PostDetailsPage extends StatelessWidget {
   final String content;
   final String image;
   final List tags;
-  const PostDetailsPage({super.key, required this.id, required this.title, required this.content, required this.image, required this.tags});
+  const PostDetailsPage({
+    Key? key,
+    required this.id,
+    required this.title,
+    required this.content,
+    required this.image,
+    required this.tags,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return PostDetailsContainer(
-      id: this.id,
-      title: this.title,
-      content: this.content,
-      image: this.image,
-      tags: this.tags
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Post Details'),
+      ),
+      body: PostDetailsContainer(
+        id: id,
+        title: title,
+        content: content,
+        image: image,
+        tags: tags,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigate to the add post page
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddPostPage()),
+          );
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
