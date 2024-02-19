@@ -110,12 +110,12 @@ class _AddPostPageState extends State<AddPostPage> {
               child: Text('Pick Image'),
             ),
             SizedBox(height: 16),
-            TextField(
-              controller: _tagsController,
-              decoration: InputDecoration(
-                labelText: 'Tags (comma separated)',
-              ),
-            ),
+            // TextField(
+            //   controller: _tagsController,
+            //   decoration: InputDecoration(
+            //     labelText: 'Tags (comma separated)',
+            //   ),
+            // ),
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => _addPost(title: _tagsController.text, content: _contentController.text, tags: _tagsController.text, image: _image.toString(),),
