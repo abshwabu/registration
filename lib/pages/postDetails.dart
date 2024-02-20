@@ -27,7 +27,7 @@ class PostDetailsPage extends StatelessWidget {
         id: id,
         title: title,
         content: content,
-        image: image,
+        image: image.isNotEmpty?image:'No image',
         tags: tags,
       ),
       floatingActionButton: FloatingActionButton(
